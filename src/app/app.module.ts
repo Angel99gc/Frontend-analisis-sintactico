@@ -8,14 +8,6 @@ import { DataService } from './data.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpClientModule } from '@angular/common/http';
 
-import 'brace';
-import 'brace/mode/text';
-import 'brace/mode/html';
-import 'brace/mode/javascript';
-import 'brace/mode/css';
-import 'brace/theme/github';
-import 'brace/theme/clouds';
-import { AceModule } from 'ngx-ace-wrapper';
 
 @NgModule({
   declarations: [
@@ -26,8 +18,7 @@ import { AceModule } from 'ngx-ace-wrapper';
     NgxSpinnerModule,
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    AceModule
+    HttpClientModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

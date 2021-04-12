@@ -9,27 +9,23 @@
 
 <div class="containerFull">
   <div class="containerMitad">
-    <div class="ace_status-indicator" >
-      <label style="margin: 0 0 0 48%" #labelPos> 0 - 0 </label>
+    <div >
+      <label style="margin: 0 0 0 48%" #labelPos> 1 : 0</label>
     </div>
-    <ace style="height:200px"
-         [disabled]="false"
-         [mode]="'html'"
-         [theme]="'clouds'"
-         [config]="{}"
-         [(value)]="content"
-         (changeCursor)="setFilaColumna($event, 'changeCursor')" #codeBloc>
-    </ace>
+    <div class="ace-editor"
+         #codeBloc>
+    </div>
     <button type="button" class="botonPlay" (click)="runCode()">
       <i class="material-icons" style="font-size: 300%">play_arrow</i>
       <label style="font-size: 200%; margin-left:3%">Run</label>
     </button>
     <div class="terminal">
-      <textarea class="codeBlocText" rows="30" placeholder="Su codigo correcto se ira adjuntando." disabled #codeReal></textarea>
+      <textarea class="codeBlocText" rows="20" placeholder="Su codigo correcto se ira adjuntando." disabled #terminal></textarea>
     </div>
   </div>
+  <div class="containerMitad">prueba</div>
+
 </div>
-<div class="containerFull">prueba</div>
 
 
 

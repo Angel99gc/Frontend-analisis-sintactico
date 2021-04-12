@@ -1,6 +1,6 @@
 .containerFull{
   display: flex;
-  width: 49%;
+  width: 100%;
   height: 100%;
 }
 .codeBlocText{
@@ -9,15 +9,19 @@
   width: 99%;
   height: 100%;
 }
+.ace-editor {
+  border: 2px solid #f8f9fa;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
 
 .containerMitad {
-  width: 100% !important;
+  width: 50% !important;
   background-color: cadetblue;
   margin: 1% 1%;
 }
 .terminal{
   display: block;
-  height: 60%;
+  height: 50%;
   background-color: cadetblue;
   margin:1% 1%;
 }
