@@ -4,33 +4,40 @@ import { DataService} from "./data.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
 import Swal from 'sweetalert2';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild('labelPos') labelPos: ElementRef;
+  @ViewChild('codeBloc') codeBloc: ElementRef;
+  @ViewChild('codeReal') codeReal: ElementRef;
 
-  @ViewChild('codeBloc') codeBloc:ElementRef;
   title = 'Frontend-analisis-sintactico';
   private subscription: Subscription = new Subscription();
-  datosTextArea = {filas : 0, columnas : 0};
+  content:any;
+  data:any;
 
   constructor(
-    private dataService:DataService,
+    private dataService: DataService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) {
+  }
 
-  runCode(){
-    console.log('runCode:');
+  runCode() {
+    console.log(this.content);
+
     let data: any = {
-      code: this.codeBloc.nativeElement.value
+      code: this.content
     }
     this.spinner.show();
     this.subscription.add(this.dataService.GetPrueba(data).subscribe(
       (response) => {
         console.log(response)
+        if (this.codeReal.nativeElement.value=="") this.codeReal.nativeElement.value += this.content;
+        else this.codeReal.nativeElement.value += "\n"+ this.content;
+        this.content = "";
         this.spinner.hide();
       },
       (err: HttpErrorResponse) => {
@@ -51,5 +58,9 @@ export class AppComponent {
     ));
   }
 
-
+  setFilaColumna(event, txt) {
+    console.log('ace event', event[1].anchor.row + " - " + event[1].anchor.column);
+    console.log(event[1]);
+    this.labelPos.nativeElement.innerText = (event[1].anchor.row+1) + " - " + (event[1].anchor.column+1);
+  }
 }

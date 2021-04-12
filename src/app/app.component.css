@@ -1,5 +1,7 @@
 .containerFull{
   display: flex;
+  width: 49%;
+  height: 100%;
 }
 .codeBlocText{
   font-size: 110%;
@@ -9,30 +11,26 @@
 }
 
 .containerMitad {
-  width: 49%;
-  height: 49%;
-  background-color: aliceblue;
+  width: 100% !important;
+  background-color: cadetblue;
   margin: 1% 1%;
 }
 .terminal{
   display: block;
-  width: 98%;
-  height: 49%;
-  background-color: deepskyblue;
-  padding: 1%;
+  height: 60%;
+  background-color: cadetblue;
+  margin:1% 1%;
 }
-.botonFlotante{
+.botonPlay{
+  display: block;
   background: whitesmoke;
-  position: fixed;
-  width: 5%;
-  height: 9%;
-  bottom: 1%;
-  right: 1%;
-  border-radius: 50%;
+  width: 98%;
+  height: 13%;
+  margin: 1% 1% 1% 1%;
   border-width: 1px ;
   border-color: black;
 }
-.botonFlotante:hover{
+.botonPlay:hover{
   background: green;
   color: white;
   cursor: pointer;

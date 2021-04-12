@@ -4,21 +4,32 @@
   color="#fff"
   type="line-scale-party"
 >
-  <p style="font-size: 10%; color: white">Cargando...</p>
+  <p style="font-size: 200%; color: white">Analizando...</p>
 </ngx-spinner>
 
 <div class="containerFull">
   <div class="containerMitad">
-    <textarea id="codeBloc" class="codeBlocText" rows="30" placeholder="Escriba su código." autofocus  #codeBloc></textarea>
-
-  </div>
-  <div class="containerMitad">
-    <img src="https://www.researchgate.net/profile/Peter-Fritzson/publication/228792639/figure/fig1/AS:393782852898820@1470896556105/Abstract-syntax-tree-of-the-while-loop.png" alt="Prueba">
+    <div class="ace_status-indicator" >
+      <label style="margin: 0 0 0 48%" #labelPos> 0 - 0 </label>
+    </div>
+    <ace style="height:200px"
+         [disabled]="false"
+         [mode]="'html'"
+         [theme]="'clouds'"
+         [config]="{}"
+         [(value)]="content"
+         (changeCursor)="setFilaColumna($event, 'changeCursor')" #codeBloc>
+    </ace>
+    <button type="button" class="botonPlay" (click)="runCode()">
+      <i class="material-icons" style="font-size: 300%">play_arrow</i>
+      <label style="font-size: 200%; margin-left:3%">Run</label>
+    </button>
+    <div class="terminal">
+      <textarea class="codeBlocText" rows="30" placeholder="Su codigo correcto se ira adjuntando." disabled #codeReal></textarea>
+    </div>
   </div>
 </div>
-<div class="terminal">
+<div class="containerFull">prueba</div>
 
-</div>
-<button type="button" class="botonFlotante" (click)="runCode()">
-  <i class="material-icons" style="font-size: 500%">check</i>
-</button>
+
+
