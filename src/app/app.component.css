@@ -1,0 +1,39 @@
+.containerFull{
+  display: flex;
+}
+.codeBlocText{
+  font-size: 110%;
+  overflow: hidden;
+  width: 99%;
+  height: 100%;
+}
+
+.containerMitad {
+  width: 49%;
+  height: 49%;
+  background-color: aliceblue;
+  margin: 1% 1%;
+}
+.terminal{
+  display: block;
+  width: 98%;
+  height: 49%;
+  background-color: deepskyblue;
+  padding: 1%;
+}
+.botonFlotante{
+  background: whitesmoke;
+  position: fixed;
+  width: 5%;
+  height: 9%;
+  bottom: 1%;
+  right: 1%;
+  border-radius: 50%;
+  border-width: 1px ;
+  border-color: black;
+}
+.botonFlotante:hover{
+  background: green;
+  color: white;
+  cursor: pointer;
+ }
