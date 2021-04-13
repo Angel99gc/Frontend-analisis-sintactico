@@ -112,12 +112,12 @@ export class AppComponent {
         }else{
           if (isTerminal) {//es la terminal con enter
             this.terminal.nativeElement.value += "\n>>>> " + response1.data + "\n>> ";
-            this.codeTxt.nativeElement.value += data.code + "\n";
+            this.codeTxt.nativeElement.value += "\n" + data.code + "\n";
 
           } else {//es el ide con boton
             if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += "\n\n>>>> "+ response1.data + "\n>> ";
             else this.terminal.nativeElement.value += "\n>>>> " + response1.data + "\n>> ";
-            this.codeTxt.nativeElement.value += data.code + "\n";
+            this.codeTxt.nativeElement.value += "\n" + data.code + "\n";
             this.codeEditor.setValue('');
             this.codeEditor.focus();
           }
