@@ -101,13 +101,22 @@ export class AppComponent {
     this.subscription.add(this.dataService.GetPrueba(data).subscribe(
       (response) => {
         console.log(response)
-        if (isTerminal) {//es la terminal con enter
-          this.terminal.nativeElement.value += ">> ";
-        } else {//es el ide con boton
-          if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
-          else this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
-          this.codeEditor.setValue('');
-          this.codeEditor.focus();
+        let data:any = response
+        if (data.data.length != 0){
+          for (let error in data.data){
+            this.terminal.nativeElement.value += "\n" + data.data[error];
+          }
+          this.terminal.nativeElement.value += "\n>> ";
+
+        }else{
+          if (isTerminal) {//es la terminal con enter
+            this.terminal.nativeElement.value += ">> ";
+          } else {//es el ide con boton
+            if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";//cambiar variable
+            else this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
+            this.codeEditor.setValue('');
+            this.codeEditor.focus();
+          }
         }
         this.spinner.hide();
         this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
