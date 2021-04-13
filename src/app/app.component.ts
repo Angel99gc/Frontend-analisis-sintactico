@@ -67,18 +67,19 @@ export class AppComponent {
   }
   runCode(isTerminal) {
     let data: any = {};
-
     if (isTerminal) {//en caso de ser terminal y con enter
       let textoTerminal = this.getSnippetTerminal();
-      if (textoTerminal == "") {
+      if (textoTerminal == "\n") {
         Swal.fire({
           title: 'Error:',
           text: 'La terminal no se puede ejecutar vacia.',
           icon: 'error',
-          timer: 3000,
+          timer: 2500,
           showConfirmButton: false,
         });
-        return
+
+        this.terminal.nativeElement.value += ">> "
+        return;
       }
       data.code = textoTerminal;
 
@@ -88,19 +89,20 @@ export class AppComponent {
           title: 'Error:',
           text: 'El editor no se puede agregar vacio.',
           icon: 'error',
-          timer: 3000,
+          timer: 2500,
           showConfirmButton: false,
         });
+        return;
       }
       data.code = this.codeEditor.getValue()
     }
+    console.log(data)
     this.spinner.show();
     this.subscription.add(this.dataService.GetPrueba(data).subscribe(
       (response) => {
         console.log(response)
         if (isTerminal) {//es la terminal con enter
           this.terminal.nativeElement.value += ">> ";
-
         } else {//es el ide con boton
           if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
           else this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
