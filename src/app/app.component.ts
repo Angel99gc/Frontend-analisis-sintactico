@@ -20,12 +20,12 @@ export class AppComponent {
   @ViewChild('labelPos') labelPos: ElementRef;
   @ViewChild('terminal') terminal: ElementRef;
   @ViewChild('codeBloc') codeBloc: ElementRef;
+  @ViewChild('codeTxt') codeTxt: ElementRef;
   private codeEditor: ace.Ace.Editor;
 
   title = 'Frontend-analisis-sintactico';
   private subscription: Subscription = new Subscription();
   content: any;
-  data: any;
 
   constructor(
     private dataService: DataService,
@@ -52,7 +52,6 @@ export class AppComponent {
     this.codeEditor.getSession().selection.on('changeCursor', () => {
       this.labelPos.nativeElement.innerText = (this.codeEditor.selection.getCursor().row + 1) + " : " + (this.codeEditor.selection.getCursor().column);
     });
-
   }
   ngOnDestroy():void{
     this.subscription.unsubscribe();
@@ -74,8 +73,8 @@ export class AppComponent {
           title: 'Error:',
           text: 'La terminal no se puede ejecutar vacia.',
           icon: 'error',
-          timer: 2500,
-          showConfirmButton: false,
+          timer: 3500,
+          showConfirmButton: true,
         });
 
         this.terminal.nativeElement.value += ">> "
@@ -83,14 +82,14 @@ export class AppComponent {
       }
       data.code = textoTerminal;
 
-    } else {//en caso de ser Ide y con el boton
+    } else {//en caso de ser IDE y con el boton
       if (this.codeEditor.getValue() == "") {
         Swal.fire({
           title: 'Error:',
           text: 'El editor no se puede agregar vacio.',
           icon: 'error',
-          timer: 2500,
-          showConfirmButton: false,
+          timer: 3500,
+          showConfirmButton: true,
         });
         return;
       }
@@ -98,22 +97,27 @@ export class AppComponent {
     }
     console.log(data)
     this.spinner.show();
-    this.subscription.add(this.dataService.GetPrueba(data).subscribe(
+    this.subscription.add(this.dataService.GetAnalysis(data).subscribe(
       (response) => {
         console.log(response)
-        let data:any = response
-        if (data.data.length != 0){
-          for (let error in data.data){
-            this.terminal.nativeElement.value += "\n" + data.data[error];
+        let response1:any = response
+        let tipoDato = typeof(response1.data);
+        console.log(tipoDato);
+        if ( tipoDato != "string"){//muestra errores en la terminal
+          for (let i = 0; i < response1.data.length; i++){
+            this.terminal.nativeElement.value += "\n>>>> " + response1.data[i.toString()];
           }
           this.terminal.nativeElement.value += "\n>> ";
 
         }else{
           if (isTerminal) {//es la terminal con enter
-            this.terminal.nativeElement.value += ">> ";
+            this.terminal.nativeElement.value += "\n>>>> " + response1.data + "\n>> ";
+            this.codeTxt.nativeElement.value += data.code + "\n";
+
           } else {//es el ide con boton
-            if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";//cambiar variable
-            else this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
+            if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += "\n\n>>>> "+ response1.data + "\n>> ";
+            else this.terminal.nativeElement.value += "\n>>>> " + response1.data + "\n>> ";
+            this.codeTxt.nativeElement.value += data.code + "\n";
             this.codeEditor.setValue('');
             this.codeEditor.focus();
           }
@@ -131,7 +135,7 @@ export class AppComponent {
             title: 'Error al conectar con el servidor.',
             text: 'Inténte de nuevo más tarde.',
             icon: 'error',
-            timer: 5000,
+            timer: 4000,
             showConfirmButton: false,
           })
         }
@@ -141,10 +145,6 @@ export class AppComponent {
   }
   lastLineInTerminal(){
     this.terminal.nativeElement.selectionEnd = this.terminal.nativeElement.value.length;
-
-  }
-  catchText(){
-
   }
   reverse(texto){
     return texto.split("").reverse().join("")

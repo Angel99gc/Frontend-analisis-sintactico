@@ -20,10 +20,12 @@
       <label style="font-size: 200%; margin-left:3%">Run</label>
     </button>
     <div class="terminal">
-      <textarea id="terminal" class="codeBlocText" rows="20" placeholder="Su codigo correcto se ira adjuntando." (keyup.enter)="runCode(true)" (keyup)="lastLineInTerminal()" (click)="lastLineInTerminal()" #terminal></textarea>
+      <textarea id="terminal" class="codeBlocText" rows="20" placeholder="Terminal." (keyup.enter)="runCode(true)" (keyup)="lastLineInTerminal()" (click)="lastLineInTerminal()" #terminal></textarea>
     </div>
   </div>
-  <div class="containerMitad"></div>
+  <div class="containerMitad">
+    <textarea id="codeTxt" class="codeTxt" rows="50" placeholder="Su codigo correcto se ira adjuntando." disabled #codeTxt></textarea>
+  </div>
 </div>
 
 

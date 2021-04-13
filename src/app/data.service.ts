@@ -8,9 +8,9 @@ export class DataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  GetPrueba(data:JSON){
+  GetAnalysis(data:JSON){
     let headers : any = {};
     let params : any = data;
-    return this.httpClient.get(this._URL_SERVIDOR + 'compilador/getPrueba',{headers, params})
+    return this.httpClient.get(this._URL_SERVIDOR + 'controlador/getAnalysis',{headers, params})
   }
 }
