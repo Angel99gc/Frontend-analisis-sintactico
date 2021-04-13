@@ -15,16 +15,15 @@
     <div class="ace-editor"
          #codeBloc>
     </div>
-    <button type="button" class="botonPlay" (click)="runCode()">
+    <button type="button" class="botonPlay" (click)="runCode(false)">
       <i class="material-icons" style="font-size: 300%">play_arrow</i>
       <label style="font-size: 200%; margin-left:3%">Run</label>
     </button>
     <div class="terminal">
-      <textarea class="codeBlocText" rows="20" placeholder="Su codigo correcto se ira adjuntando." disabled #terminal></textarea>
+      <textarea id="terminal" class="codeBlocText" rows="20" placeholder="Su codigo correcto se ira adjuntando." (keyup.enter)="runCode(true)" (keyup)="lastLineInTerminal()" (click)="lastLineInTerminal()" #terminal></textarea>
     </div>
   </div>
-  <div class="containerMitad">prueba</div>
-
+  <div class="containerMitad"></div>
 </div>
 
 

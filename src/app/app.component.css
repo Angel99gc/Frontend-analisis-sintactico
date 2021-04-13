@@ -4,8 +4,9 @@
   height: 100%;
 }
 .codeBlocText{
+  background: #f8f9fa;
   font-size: 110%;
-  overflow: hidden;
+  overflow-y: scroll;
   width: 99%;
   height: 100%;
 }
@@ -39,3 +40,5 @@
   color: white;
   cursor: pointer;
  }
+
+

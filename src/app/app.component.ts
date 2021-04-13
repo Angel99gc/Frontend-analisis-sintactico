@@ -18,64 +18,98 @@ const LANG = 'ace/mode/javascript';
 })
 export class AppComponent {
   @ViewChild('labelPos') labelPos: ElementRef;
-  @ViewChild('terminal') codeReal: ElementRef;
+  @ViewChild('terminal') terminal: ElementRef;
   @ViewChild('codeBloc') codeBloc: ElementRef;
   private codeEditor: ace.Ace.Editor;
 
   title = 'Frontend-analisis-sintactico';
   private subscription: Subscription = new Subscription();
-  content:any;
-  data:any;
+  content: any;
+  data: any;
 
   constructor(
     private dataService: DataService,
     private spinner: NgxSpinnerService
   ) {
   }
+
   ngAfterViewInit(): void {
-    const element = this.codeBloc.nativeElement;
+    this.terminal.nativeElement.value = ">> ";
     const editorOptions: Partial<ace.Ace.EditorOptions> = {
       highlightActiveLine: true,
       minLines: 20,
       maxLines: Infinity,
     };
-    this.codeEditor = ace.edit(element, editorOptions);
+    this.codeEditor = ace.edit(this.codeBloc.nativeElement, editorOptions);
     ace.config.set('basePath', '/assets/ui/');
     ace.config.set('modePath', '/assets/ui/');
     ace.config.set('themePath', '/assets/ui/');
-    ace.config.set('workerPath','/assets/ui/');
+    ace.config.set('workerPath', '/assets/ui/');
     this.codeEditor.setTheme(THEME);
     this.codeEditor.getSession().setMode(LANG);
     this.codeEditor.setShowFoldWidgets(true); // for the scope fold f
-    this.codeEditor.getSession().selection.on('changeCursor', ()=>{
-      this.labelPos.nativeElement.innerText = (this.codeEditor.selection.getCursor().row+1) + " : " + (this.codeEditor.selection.getCursor().column);
+    this.codeEditor.focus();
+    this.codeEditor.getSession().selection.on('changeCursor', () => {
+      this.labelPos.nativeElement.innerText = (this.codeEditor.selection.getCursor().row + 1) + " : " + (this.codeEditor.selection.getCursor().column);
     });
 
   }
+  ngOnDestroy():void{
+    this.subscription.unsubscribe();
+  }
 
-  runCode() {
-    if(this.codeEditor.getValue() == ""){
-      Swal.fire({
-        title: 'Error:',
-        text: 'El editor no se puede agregar vacio.',
-        icon: 'error',
-        timer: 3000,
-        showConfirmButton: false,
-      });
-      return;
-    }
-    console.log(this.codeEditor.getValue())
-    let data: any = {
-      code: this.codeEditor.getValue()
+  getSnippetTerminal(){
+    let texto = this.terminal.nativeElement.value;
+    let textoVolteado = this.reverse(texto);
+    let listaSnippets = textoVolteado.split(" >>")
+    return this.reverse(listaSnippets[0]);
+
+  }
+  runCode(isTerminal) {
+    let data: any = {};
+
+    if (isTerminal) {//en caso de ser terminal y con enter
+      let textoTerminal = this.getSnippetTerminal();
+      if (textoTerminal == "") {
+        Swal.fire({
+          title: 'Error:',
+          text: 'La terminal no se puede ejecutar vacia.',
+          icon: 'error',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+        return
+      }
+      data.code = textoTerminal;
+
+    } else {//en caso de ser Ide y con el boton
+      if (this.codeEditor.getValue() == "") {
+        Swal.fire({
+          title: 'Error:',
+          text: 'El editor no se puede agregar vacio.',
+          icon: 'error',
+          timer: 3000,
+          showConfirmButton: false,
+        });
+      }
+      data.code = this.codeEditor.getValue()
     }
     this.spinner.show();
     this.subscription.add(this.dataService.GetPrueba(data).subscribe(
       (response) => {
         console.log(response)
-        if (this.codeReal.nativeElement.value=="") this.codeReal.nativeElement.value += ">> " + this.codeEditor.getValue();
-        else this.codeReal.nativeElement.value += "\n>> "+ this.codeEditor.getValue();
-        this.codeEditor.setValue("");
+        if (isTerminal) {//es la terminal con enter
+          this.terminal.nativeElement.value += ">> ";
+
+        } else {//es el ide con boton
+          if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
+          else this.terminal.nativeElement.value += this.codeEditor.getValue() + "\n>> ";
+          this.codeEditor.setValue('');
+          this.codeEditor.focus();
+        }
         this.spinner.hide();
+        this.terminal.nativeElement.scrollTop = this.terminal.nativeElement.scrollHeight;
+
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -94,5 +128,14 @@ export class AppComponent {
       }
     ));
   }
+  lastLineInTerminal(){
+    this.terminal.nativeElement.selectionEnd = this.terminal.nativeElement.value.length;
 
+  }
+  catchText(){
+
+  }
+  reverse(texto){
+    return texto.split("").reverse().join("")
+  };
 }
