@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { HttpClient } from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class DataService {
+
   private _URL_SERVIDOR: string = environment.URL_SERVIDOR;
 
   constructor(private httpClient: HttpClient) { }
 
-  GetAnalysis(data:JSON){
-    let headers : any = {};
-    let params : any = data;
-    return this.httpClient.get(this._URL_SERVIDOR + 'controlador/getAnalysis',{headers, params})
+  PostAnalysis(data:String){
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization':'prueba', 'Content-Type': 'text/plain','Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'})
+    };
+    return this.httpClient.post(this._URL_SERVIDOR + 'controlador',data, httpOptions);
   }
 }

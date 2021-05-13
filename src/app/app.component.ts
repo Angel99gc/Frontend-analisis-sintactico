@@ -97,27 +97,25 @@ export class AppComponent {
     }
     console.log(data)
     this.spinner.show();
-    this.subscription.add(this.dataService.GetAnalysis(data).subscribe(
-      (response) => {
-        console.log(response)
-        let response1:any = response
-        let tipoDato = typeof(response1.data);
-        console.log(tipoDato);
-        if ( tipoDato != "string"){//muestra errores en la terminal
-          for (let i = 0; i < response1.data.length; i++){
-            this.terminal.nativeElement.value += "\n>>>> " + response1.data[i.toString()];
-          }
+    this.subscription.add(this.dataService.PostAnalysis(data.code).subscribe(
+      (res) => {
+        let response:any = res
+
+        console.log(response);
+
+        if ( response.code != "200"){//muestra errores en la terminal
+          this.terminal.nativeElement.value += "\n>>>> " + response.error;
           this.terminal.nativeElement.value += "\n>> ";
 
         }else{
           if (isTerminal) {//es la terminal con enter
-            this.terminal.nativeElement.value += "\n>>>> " + response1.data + "\n>> ";
-            this.codeTxt.nativeElement.value += "\n" + data.code + "\n";
+            this.terminal.nativeElement.value += "\n>>>> " + response.data + "\n>> ";
+            this.codeTxt.nativeElement.value += "\n" + response.code + "\n";
 
           } else {//es el ide con boton
-            if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += "\n\n>>>> "+ response1.data + "\n>> ";
-            else this.terminal.nativeElement.value += "\n>>>> " + response1.data + "\n>> ";
-            this.codeTxt.nativeElement.value += "\n" + data.code + "\n";
+            if (this.terminal.nativeElement.value == ">> ") this.terminal.nativeElement.value += "\n\n>>>> "+ response.data + "\n>> ";
+            else this.terminal.nativeElement.value += "\n>>>> " + response.data + "\n>> ";
+            this.codeTxt.nativeElement.value +=  this.codeEditor.getValue() + "\n";
             this.codeEditor.setValue('');
             this.codeEditor.focus();
           }
@@ -127,6 +125,7 @@ export class AppComponent {
 
       },
       (err: HttpErrorResponse) => {
+        console.log(err.error);
         if (err.error instanceof Error) {
           console.log('Error desde el Angular')
         } else {
