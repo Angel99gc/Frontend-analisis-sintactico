@@ -38,7 +38,7 @@ export class AppComponent {
     const editorOptions: Partial<ace.Ace.EditorOptions> = {
       highlightActiveLine: true,
       minLines: 20,
-      maxLines: Infinity,
+      maxLines: 20,
     };
     this.codeEditor = ace.edit(this.codeBloc.nativeElement, editorOptions);
     ace.config.set('basePath', '/assets/ui/');
