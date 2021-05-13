@@ -5,4 +5,4 @@
 | Nombre                          | Carné     | Teléfono  | Correo                               |
 | ------------------------------- | ---------- | --------- | ------------------------------------ |
 | Ángel Jesús Gamboa Cruz         | 2017157161 | 8707-0795 | angel.gamboac12@gmail.com            |
-| Fernando Mendez                 |        x   | x | x |
+| Fernando Méndez Hurtado                |        2018170706   | 8755-9805 | mendezhfernando@gmail.com |
