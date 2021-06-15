@@ -101,6 +101,7 @@ export class AppComponent {
       (res) => {
         let response:any = res
 
+        console.log("respuesta:")
         console.log(response);
 
         if ( response.code != "200"){//muestra errores en la terminal
