@@ -95,15 +95,12 @@ export class AppComponent {
       }
       data.code = this.codeEditor.getValue()
     }
-    console.log(data)
+    console.log("request = ", data)
     this.spinner.show();
     this.subscription.add(this.dataService.PostAnalysis(data.code).subscribe(
       (res) => {
         let response:any = res
-
-        console.log("respuesta:")
-        console.log(response);
-
+        console.log("response = ", response);
         if ( response.code != "200"){//muestra errores en la terminal
           this.terminal.nativeElement.value += "\n>>>> " + response.error;
           this.terminal.nativeElement.value += "\n>> ";

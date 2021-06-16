@@ -1,4 +1,4 @@
 export const environment = {
-  URL_SERVIDOR: 'https://backend-pseudojava.herokuapp.com/',
+  URL_SERVIDOR: 'https://back-pseudojava.herokuapp.com/',
   production: true
 };

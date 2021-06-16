@@ -9,13 +9,17 @@ export class DataService {
 
   constructor(private httpClient: HttpClient) { }
 
-  PostAnalysis(data:String){
-
-
+  GetAnalysis(data:String){
     let headers = { 'Authorization':'prueba',
       'Access-Control-Allow-Origin':'*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'};
 
     return this.httpClient.get(this._URL_SERVIDOR + 'analisis/'+data, {headers});
+  }
+  PostAnalysis(data:String){
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Authorization':'prueba', 'Content-Type': 'text/plain','Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS'})
+    };
+    return this.httpClient.post(this._URL_SERVIDOR + 'analisis',data, httpOptions);
   }
 }
