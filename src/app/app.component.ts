@@ -100,6 +100,7 @@ export class AppComponent {
     this.subscription.add(this.dataService.PostAnalysis(data.code).subscribe(
       (res) => {
         let response:any = res
+        this.terminal.nativeElement.value = "";
         console.log("response = ", response);
         if ( response.code != "200"){//muestra errores en la terminal
           this.terminal.nativeElement.value += "\n>>>> " + response.error;
